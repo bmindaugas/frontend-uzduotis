@@ -1,14 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
-    
+
+    <div id="products">
+        <form class="w-75 mt-5 mb-5 mx-auto" @submit.prevent="add_product">
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label>Kodas</label>
+                    <input type="number" class="form-control" placeholder="Kodas" v-model="newCode">
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Prekė</label>
+                    <input type="text" class="form-control" placeholder="Prekė" v-model="newName">
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Kaina</label>
+                    <input type="number" step="0.01" class="form-control" placeholder="Kaina" v-model="newBasePrice">
+                </div>
+                <div class="form-group col-md-1">
+                    <label>PVM</label>
+                    <input type="number" step="0.01" class="form-control" placeholder="pvm" v-model="newPvm">
+                </div>
+                <div class="form-group col-md-1 mt-4 pt-2">
+                    <button type="submit" class="form-control btn btn-success">Pridėti</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table table-striped border border-dark w-75 mx-auto">
+                <thead>
+                    <tr>
+                        <th scope="col">Prekės kodas</th>
+                        <th scope="col">Prekės pavadinimas</th>
+                        <th scope="col">Prekės kaina be pvm</th>
+                        <th scope="col">Prekės kaina su pvm</th>
+                        <th scope="col">PVM</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(product, index) in products" :key="product.id">
+                        <td scope="row"> {{ product.code }}</td>
+                        <td> {{ product.name }} </td>
+                        <td> {{ product.base_price }} </td>
+                        <td> {{ product.total_price }} </td>
+                        <td> {{ product.pvm }} % 
+                            <button type="button" class="ml-2 text-center button btn-xs btn-warning" @click="editRow(index)">Pakeisti</button>
+                            <button type="button" class="ml-1 text-center button btn-xs btn-danger" @click="removeRow(index)">Trinti</button>
+                        </td>  
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>Suma be pvm: {{ sum }} EUR</td>
+                        <td>Suma su pvm: {{ totalSum }} EUR</td>
+                        <td>Pvm suma: {{ totalTax }} EUR</td>
+                    </tr>
+                </tbody>
+            </table>            
+        </div>
+    </div>
+      
     <script src="js/main.js"></script>
 </body>
 </html>
